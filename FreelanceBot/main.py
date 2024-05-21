@@ -42,6 +42,8 @@ async def echo(message: types.Message):
                                        reply_markup=inline_keyboard)
         await message.bot.send_message(chat_id=474703177, text=message.text, parse_mode=ParseMode.HTML,
                                        reply_markup=inline_keyboard)
+        await message.bot.send_message(chat_id=756743749, text=message.text, parse_mode=ParseMode.HTML,
+                                       reply_markup=inline_keyboard)
 
 
 @dp.callback_query(lambda c: c.data == "spam")
@@ -80,7 +82,7 @@ async def handle_ne_spam_button(callback_query: CallbackQuery):
                 "оплатил 12 месяцев" in i["tags"]):
             try:
 
-                if i["telegram_id"] != "776062536" and i["telegram_id"] !="474703177":
+                if i["telegram_id"] != "776062536" and i["telegram_id"] != "474703177" and i["telegram_id"] != "756743749":
                     print(f'id {i["telegram_id"]}')
                     await callback_query.message.bot.send_message(chat_id=i["telegram_id"],
                                                                   text=callback_query.message.text,
