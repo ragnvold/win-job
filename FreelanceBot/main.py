@@ -1,26 +1,30 @@
 import asyncio
 import logging
 import sys
-from os import getenv
 import requests
-
-from aiogram import Bot, Dispatcher, Router, types
+import os
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, CallbackQuery
 from aiogram.utils.markdown import hbold
-
-TOKEN = "6567650179:AAGgzkRmYKGwwWNDuznV_l8poqcrdbYq4nU"
+from aiogram import (
+    Bot,
+    Dispatcher,
+    Router,
+    types
+)
+from aiogram.types import (
+    InlineKeyboardMarkup, 
+    InlineKeyboardButton, 
+    Message, 
+    CallbackQuery
+)
 
 dp = Dispatcher()
 rt = Router()
 
-
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-
-    await message.answer(f"Приветствую! {hbold(message.from_user.full_name)}! Здесь будут отправляться фриланс заказы")
-
+    await message.answer(f"Приветствую, {hbold(message.from_user.full_name)}! Здесь будут отправляться фриланс заказы")
 
 @dp.message()
 async def echo(message: types.Message):
@@ -34,9 +38,10 @@ async def echo(message: types.Message):
         response = requests.get(url, headers=headers)
         data = response.json()
 
+        reject_button = InlineKeyboardButton(text="Отклонить", callback_data="reject")
+        approve_button = InlineKeyboardButton(text="Одобрить", callback_data="approve")
         spam_button = InlineKeyboardButton(text="Спам", callback_data="spam")
-        ne_spam_button = InlineKeyboardButton(text="Одобрить", callback_data="ne_spam")
-        inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[[spam_button],[ne_spam_button]])
+        inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[[approve_button], [reject_button], [spam_button]])
 
         await message.bot.send_message(chat_id=776062536, text=message.text, parse_mode=ParseMode.HTML,
                                        reply_markup=inline_keyboard)
@@ -52,14 +57,14 @@ async def handle_spam_button(callback_query: CallbackQuery):
     await callback_query.message.forward(-4255452570)
 
     # Подтвердите получение нажатия кнопки
-    await callback_query.message.edit_text("отправлено в канал Спам объявления")
+    await callback_query.message.edit_text("Отправлено в канал со спам-объявлениями")
 
-    await asyncio.sleep(4)
+    await asyncio.sleep(2)
 
     await callback_query.message.delete()
 
 
-@dp.callback_query(lambda c: c.data == "ne_spam")
+@dp.callback_query(lambda c: c.data == "approve")
 async def handle_ne_spam_button(callback_query: CallbackQuery):
     headers = {
         "X-Requested-With": "XMLHttpRequest"
@@ -91,19 +96,17 @@ async def handle_ne_spam_button(callback_query: CallbackQuery):
                     print("отправил")
             except:
                 print(i["telegram_id"])
-    #await callback_query.message.forward(-4255452570)
-    await callback_query.message.edit_text("отправлено пользователям")
+    await callback_query.message.edit_text("Отправлено пользователям")
 
-    await asyncio.sleep(4)
+    await asyncio.sleep(2)
 
     await callback_query.message.delete()
 
 
 async def main() -> None:
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(os.getenv("BOT_TOKEN"), parse_mode=ParseMode.HTML)
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    #logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
