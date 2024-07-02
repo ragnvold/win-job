@@ -36,16 +36,12 @@ async def main(event):
                    f"\n\n**💬 Сообщение:**\n\n`{event.message.text}`")
         check = await check_message(event.message.text)
         print(check)
-        if check == True and all(key.lower() not in event.message.text.lower() for key in keys) :
-
-                    await client.send_message(6567650179, msgFind)
-                    print("отправил!!!!!!!!!!!!!")
+        if check == True and all(key.lower() not in event.message.text.lower() for key in keys):
+            await client.send_message(474703177, msgFind)
 
 async def run_main():
-    await client.start(password='jvgggigz9teb')
-    print("Bot started and waiting for new messages...")
+    await client.start(password=os.getenv("USER_BOT_PASSWORD"))
     await client.run_until_disconnected()
 
-# Run the event loop
 if __name__ == "__main__":
     asyncio.run(run_main())
