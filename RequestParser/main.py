@@ -21,27 +21,28 @@ client = TelegramClient(
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-async def check_username(message):
-    sender = await message.get_sender()
+async def checkSenderUsername(event):
+    sender = await event.message.get_sender()
     if sender.username == None:
-        return (False)
+        return False
     else:
-        return f'{sender.username}'
+        return True
 
 
 @client.on(events.NewMessage)
 async def main(event):
-    if await check_username(event) == True:
-        logging.info(f"On new message {event.message}")
-        sender = await event.get_sender()
-        msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{event.message.chat.title}`\n**├🆔 ID чата:** `"
-                   f"{event.message.chat_id}`\n**├👤 Пользователь:** `{sender.first_name}`\n**├💬 Юзернейм:** "
-                   f"@{await check_username(event)}**└📎"
+    isSenderHasUsername = await checkSenderUsername(event)
+
+    if isSenderHasUsername:
+        username = await event.get_sender().username
+        chatTitle = event.message.chat.title
+        msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{}`\n**├🆔 ID чата:** `"
+                   f"{event.message.chat_id}`\n**├👤 Юзернейм:** "
+                   f"@{username}**└📎"
                    f"\n\n**💬 Сообщение:**\n\n`{event.message.text}`")
-        check = await check_message(event.message.text)
-        print(check)
-        if check == True and all(key.lower() not in event.message.text.lower() for key in keys):
-            await client.send_message(474703177, msgFind)
+        #check = await check_message(event.message.text)
+        #if check == True and all(key.lower() not in event.message.text.lower() for key in keys):
+        await client.send_message(6567650179, msgFind)
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
