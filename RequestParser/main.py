@@ -34,11 +34,11 @@ async def main(event):
     isSenderHasUsername = await checkSenderUsername(event)
 
     if isSenderHasUsername:
-        username = await event.get_sender().username
+        sender = await event.get_sender()
         chatTitle = event.message.chat.title
         msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{chatTitle}`\n**├🆔 ID чата:** `"
                    f"{event.message.chat_id}`\n**├👤 Юзернейм:** "
-                   f"@{username}**└📎"
+                   f"@{sender.username}**└📎"
                    f"\n\n**💬 Сообщение:**\n\n`{event.message.text}`")
         #check = await check_message(event.message.text)
         #if check == True and all(key.lower() not in event.message.text.lower() for key in keys):
