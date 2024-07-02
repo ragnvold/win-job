@@ -23,7 +23,6 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 async def check_username(message):
     sender = await message.get_sender()
-    logging.info(f"Username = {sender}")
     if sender.username == None:
         return (False)
     else:
@@ -32,8 +31,8 @@ async def check_username(message):
 
 @client.on(events.NewMessage)
 async def main(event):
-    logging.info(f"On new message {event.message}")
-    if await check_username(event) == False:
+    if await check_username(event) == True:
+        logging.info(f"On new message {event.message}")
         sender = await event.get_sender()
         msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{event.message.chat.title}`\n**├🆔 ID чата:** `"
                    f"{event.message.chat_id}`\n**├👤 Пользователь:** `{sender.first_name}`\n**├💬 Юзернейм:** "
