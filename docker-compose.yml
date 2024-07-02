@@ -1,13 +1,9 @@
-version: '3.8'
-
 services:
   request_parser:
     build:
       context: ./RequestParser
       dockerfile: Dockerfile
     container_name: request_parser
-    env_file:
-      - .env.test
     ports:
       - "5000:5000"
 
@@ -16,7 +12,5 @@ services:
       context: ./FreelanceBot
       dockerfile: Dockerfile
     container_name: freelance_bot
-    env_file:
-      - .env.test
     depends_on:
       - request_parser
