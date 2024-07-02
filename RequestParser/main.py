@@ -23,6 +23,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 async def check_username(message):
     sender = await message.get_sender()
+    logging.info(f"Username = {sender}")
     if sender.username == None:
         return (False)
     else:
