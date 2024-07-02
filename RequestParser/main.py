@@ -1,6 +1,7 @@
 import asyncio
 import requests
 import os
+import logging
 from telethon.tl.types import PeerUser
 from config import keys
 from gpt4free import check_message
@@ -18,6 +19,8 @@ client = TelegramClient(
     system_version="IOS 100.1"
 )
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 async def check_username(message):
     sender = await message.get_sender()
     if sender.username == None:
@@ -28,6 +31,7 @@ async def check_username(message):
 
 @client.on(events.NewMessage)
 async def main(event):
+    logging.info(f"On new message {event.message}")
     if await check_username(event) == False:
         sender = await event.get_sender()
         msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{event.message.chat.title}`\n**├🆔 ID чата:** `"
@@ -44,4 +48,5 @@ async def run_main():
     await client.run_until_disconnected()
 
 if __name__ == "__main__":
+    logging.info("Start request parser")
     asyncio.run(run_main())
