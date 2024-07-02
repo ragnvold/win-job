@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  request_parser:
+    build:
+      context: ./RequestParser
+      dockerfile: Dockerfile
+    container_name: request_parser
+    ports:
+      - "5000:5000"
+
+  freelance_bot:
+    build:
+      context: ./FreelanceBot
+      dockerfile: Dockerfile
+    container_name: freelance_bot
+    depends_on:
+      - request_parser
