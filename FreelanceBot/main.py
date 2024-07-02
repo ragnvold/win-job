@@ -23,8 +23,11 @@ from aiogram.types import (
 dp = Dispatcher()
 rt = Router()
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
+    logging.info("Print hello message")
     await message.answer(f"Приветствую, {hbold(message.from_user.full_name)}! Здесь будут отправляться фриланс заказы")
 
 @dp.message()
