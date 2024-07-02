@@ -6,6 +6,7 @@ import os
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.utils.markdown import hbold
+from aiogram.client.default import DefaultBotProperties
 from aiogram import (
     Bot,
     Dispatcher,
@@ -91,7 +92,7 @@ async def handle_ne_spam_button(callback_query: CallbackQuery):
                     print(f'id {i["telegram_id"]}')
                     await callback_query.message.bot.send_message(chat_id=i["telegram_id"],
                                                                   text=callback_query.message.text,
-                                                                  parse_mode=ParseMode.HTML,
+                                                                  default=DefaultBotProperties(parse_mode=ParseMode.HTML),
                                                                   reply_markup=inline_keyboard)
                     print("отправил")
             except:
@@ -104,7 +105,7 @@ async def handle_ne_spam_button(callback_query: CallbackQuery):
 
 
 async def main() -> None:
-    bot = Bot(os.getenv("BOT_TOKEN"), default=DefaultBotProperties(parse_mode='HTML'))
+    bot = Bot(os.getenv("BOT_TOKEN"), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     await dp.start_polling(bot)
 
 
