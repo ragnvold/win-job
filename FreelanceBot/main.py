@@ -104,7 +104,7 @@ async def handle_ne_spam_button(callback_query: CallbackQuery):
 
 
 async def main() -> None:
-    bot = Bot(os.getenv("BOT_TOKEN"), parse_mode=ParseMode.HTML)
+    bot = Bot(os.getenv("BOT_TOKEN"), default=DefaultBotProperties(parse_mode='HTML'))
     await dp.start_polling(bot)
 
 
