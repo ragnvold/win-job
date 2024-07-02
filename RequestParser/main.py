@@ -36,7 +36,7 @@ async def main(event):
     if isSenderHasUsername:
         username = await event.get_sender().username
         chatTitle = event.message.chat.title
-        msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{}`\n**├🆔 ID чата:** `"
+        msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{chatTitle}`\n**├🆔 ID чата:** `"
                    f"{event.message.chat_id}`\n**├👤 Юзернейм:** "
                    f"@{username}**└📎"
                    f"\n\n**💬 Сообщение:**\n\n`{event.message.text}`")
