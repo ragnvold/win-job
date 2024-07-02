@@ -1,15 +1,22 @@
 import asyncio
-from telethon.tl.types import PeerUser
-from telethon import TelegramClient, events, utils
-from config import api_id, api_hash,keys
 import requests
+import os
+from telethon.tl.types import PeerUser
+from config import keys
 from gpt4free import check_message
-#import nest_asyncio
+from telethon import (
+    TelegramClient, 
+    events, 
+    utils
+)
 
-#nest_asyncio.apply()
-
-client = TelegramClient("userBot", api_id=api_id, api_hash=api_hash, device_model="iPhone 55 Pro", system_version="IOS 100.1")
-
+client = TelegramClient(
+    "userBot",
+    api_id=os.getenv("API_ID"),
+    api_hash=os.getenv("API_HASH"),
+    device_model="iPhone 55 Pro",
+    system_version="IOS 100.1"
+)
 
 async def check_username(message):
     sender = await message.get_sender()
