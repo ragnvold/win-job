@@ -103,6 +103,10 @@ async def handle_approve_button(callback_query: CallbackQuery):
     await asyncio.sleep(2)
     await callback_query.message.delete()
 
+@dp.callback_query(lambda c: c.data == "reject")
+async def handle_reject_button(callback_query: CallbackQuery):
+    await callback_query.message.delete()
+
 async def main() -> None:
     bot = Bot(
         os.getenv("BOT_TOKEN"),

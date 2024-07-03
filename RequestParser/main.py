@@ -37,7 +37,7 @@ async def main(event):
 
         msgFind = (
             f"📩 **Новая заявка!**\n\n"
-            f"**├👤 Юзернейм:** @{sender.username}**└📎\n\n"
+            f"**├👤 Юзернейм:** @{sender.username}**\n\n"
             f"**💬 Сообщение:**\n\n`{messageText}`"
         )
 
