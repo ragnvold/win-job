@@ -67,6 +67,13 @@ async def handle_spam_button(callback_query: CallbackQuery):
     await asyncio.sleep(2)
     await callback_query.message.delete()
 
+async def checkUserHasChat(bot, userId: int) -> bool:
+    try:
+        chat = await bot.get_chat(userId)
+        return True
+    except Exception as e:
+        logging.error(f"Error: {e}")
+        return False
 
 @dp.callback_query(lambda c: c.data == "approve")
 async def handle_approve_button(callback_query: CallbackQuery):
@@ -90,11 +97,14 @@ async def handle_approve_button(callback_query: CallbackQuery):
                 "оплатил 12 месяцев" in i["tags"]):
             try:
                 if i["telegram_id"] != "474703177":
-                    await callback_query.message.bot.send_message(
-                        chat_id=i["telegram_id"],
-                        text=callback_query.message.text,
-                        reply_markup=inline_keyboard
-                    )
+                    await checkUserHasChat(callback_query.message.bot, i["telegram_id"])
+
+                    if checkUserHasChat:
+                        await callback_query.message.bot.send_message(
+                            chat_id=i["telegram_id"],
+                            text=callback_query.message.text,
+                            reply_markup=inline_keyboard
+                        )
             except Exception as ex:
                 logging.error(f"{ex}")
 
