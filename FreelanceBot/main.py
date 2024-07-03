@@ -96,8 +96,8 @@ async def handle_approve_button(callback_query: CallbackQuery):
                         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
                         reply_markup=inline_keyboard
                     )
-            except:
-                logging.error("Something went wrong!")
+            except Exception as ex:
+                logging.error(f"{ex}")
 
     await callback_query.message.edit_text("Отправлено пользователям")
     await asyncio.sleep(2)
