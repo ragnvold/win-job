@@ -23,13 +23,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 async def checkSenderUsername(event):
     sender = await event.message.get_sender()
-    if sender == None:
-        return False
-    else:
-        if sender.username == None:
-            return False
-        else:
-            return True
+    return sender is not None and sender.username is not None
 
 @client.on(events.NewMessage)
 async def main(event):
@@ -43,8 +37,6 @@ async def main(event):
 
         msgFind = (
             f"📩 **Новая заявка!**\n\n"
-            f"**├🌐 Название чата:** `{chatTitle}`\n"
-            f"**├🆔 ID чата:** `{chatId}`\n"
             f"**├👤 Юзернейм:** @{sender.username}**└📎\n\n"
             f"**💬 Сообщение:**\n\n`{messageText}`"
         )
