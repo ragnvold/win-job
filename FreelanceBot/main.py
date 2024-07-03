@@ -93,7 +93,6 @@ async def handle_approve_button(callback_query: CallbackQuery):
                     await callback_query.message.bot.send_message(
                         chat_id=i["telegram_id"],
                         text=callback_query.message.text,
-                        default=DefaultBotProperties(parse_mode=ParseMode.HTML),
                         reply_markup=inline_keyboard
                     )
             except Exception as ex:
