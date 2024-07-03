@@ -47,9 +47,9 @@ async def main(event):
             messageText = event.message.text
 
             msgFind = (
-                f"📩 **Новая заявка!**\n\n"
-                f"**├👤 Юзернейм:** @{sender.username}**\n\n"
-                f"**💬 Сообщение:**\n\n`{messageText}`"
+                f"📩 Новая заявка!\n\n"
+                f"👤 Юзернейм: @{sender.username}\n\n"
+                f"💬 Сообщение:\n\n`{messageText}`"
             )
 
             chatBotId = int(os.getenv("CHAT_BOT_ID"))
