@@ -28,7 +28,6 @@ async def checkSenderUsername(event):
     else:
         return True
 
-
 @client.on(events.NewMessage)
 async def main(event):
     isSenderHasUsername = await checkSenderUsername(event)
@@ -36,18 +35,22 @@ async def main(event):
     if isSenderHasUsername:
         sender = await event.get_sender()
         chatTitle = event.message.chat.title
-        msgFind = (f"📩 **Новая заявка!**\n\n**├🌐 Название чата:** `{chatTitle}`\n**├🆔 ID чата:** `"
-                   f"{event.message.chat_id}`\n**├👤 Юзернейм:** "
-                   f"@{sender.username}**└📎"
-                   f"\n\n**💬 Сообщение:**\n\n`{event.message.text}`")
-        #check = await check_message(event.message.text)
-        #if check == True and all(key.lower() not in event.message.text.lower() for key in keys):
-        await client.send_message(6567650179, msgFind)
+        chatId = event.message.chat_id
+        messageText = event.message.text
+
+        msgFind = (
+            f"📩 **Новая заявка!**\n\n"
+            f"**├🌐 Название чата:** `{chatTitle}`\n"
+            f"**├🆔 ID чата:** `{chatId}`\n"
+            f"**├👤 Юзернейм:** @{sender.username}**└📎\n\n"
+            f"**💬 Сообщение:**\n\n`{messageText}`"
+        )
+        
+        await client.send_message(os.getenv("CHAT_BOT_ID"), msgFind)
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
     await client.run_until_disconnected()
 
 if __name__ == "__main__":
-    logging.info("Start request parser")
     asyncio.run(run_main())
