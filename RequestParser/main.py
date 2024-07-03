@@ -23,10 +23,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 async def checkSenderUsername(event):
     sender = await event.message.get_sender()
-    if sender.username == None:
+    if sender == None:
         return False
     else:
-        return True
+        if sender.username == None:
+            return False
+        else:
+            return True
 
 @client.on(events.NewMessage)
 async def main(event):
