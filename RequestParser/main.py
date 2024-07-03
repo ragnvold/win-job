@@ -19,6 +19,10 @@ client = TelegramClient(
     system_version="IOS 100.1"
 )
 
+banUserSet = set(
+    6520281407
+)
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 async def checkSenderUsername(event):
@@ -27,27 +31,28 @@ async def checkSenderUsername(event):
 
 async def checkUserIdBlocked(event):
     sender = await event.message.get_sender()
-    logging.info(f"{sender.id}")
+    
+    return sender.id in banUserSet
 
 @client.on(events.NewMessage)
 async def main(event):
-    await checkUserIdBlocked(event)
-    isSenderHasUsername = await checkSenderUsername(event)
+    isUserBanned = await checkUserIdBlocked(event)
 
-    if isSenderHasUsername:
-        sender = await event.get_sender()
-        chatTitle = event.message.chat.title
-        chatId = event.message.chat_id
-        messageText = event.message.text
+    if isUserBanned == False:
+        isSenderHasUsername = await checkSenderUsername(event)
 
-        msgFind = (
-            f"📩 **Новая заявка!**\n\n"
-            f"**├👤 Юзернейм:** @{sender.username}**\n\n"
-            f"**💬 Сообщение:**\n\n`{messageText}`"
-        )
+        if isSenderHasUsername:
+            sender = await event.get_sender()
+            messageText = event.message.text
 
-        chatBotId = int(os.getenv("CHAT_BOT_ID"))
-        await client.send_message(chatBotId, msgFind)
+            msgFind = (
+                f"📩 **Новая заявка!**\n\n"
+                f"**├👤 Юзернейм:** @{sender.username}**\n\n"
+                f"**💬 Сообщение:**\n\n`{messageText}`"
+            )
+
+            chatBotId = int(os.getenv("CHAT_BOT_ID"))
+            await client.send_message(chatBotId, msgFind)
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
