@@ -20,7 +20,8 @@ client = TelegramClient(
 )
 
 banUserSet = set(
-    6520281407
+    6520281407,
+    7346459736,
 )
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
