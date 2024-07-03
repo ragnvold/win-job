@@ -27,7 +27,7 @@ async def checkSenderUsername(event):
 
 async def checkUserIdBlocked(event):
     sender = await event.message.get_sender()
-    logging.info(f"{sender}")
+    logging.info(f"{sender.id}")
 
 @client.on(events.NewMessage)
 async def main(event):
