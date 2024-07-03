@@ -25,8 +25,13 @@ async def checkSenderUsername(event):
     sender = await event.message.get_sender()
     return sender is not None and sender.username is not None
 
+async def checkUserIdBlocked(event):
+    sender = await event.message.get_sender()
+    logging.info(f"{sender}")
+
 @client.on(events.NewMessage)
 async def main(event):
+    await checkUserIdBlocked(event)
     isSenderHasUsername = await checkSenderUsername(event)
 
     if isSenderHasUsername:
