@@ -46,13 +46,8 @@ async def echo(message: types.Message):
         spam_button = InlineKeyboardButton(text="Спам", callback_data="spam")
         inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[[approve_button], [reject_button], [spam_button]])
 
-        await message.bot.send_message(chat_id=776062536, text=message.text, parse_mode=ParseMode.HTML,
-                                       reply_markup=inline_keyboard)
         await message.bot.send_message(chat_id=474703177, text=message.text, parse_mode=ParseMode.HTML,
                                        reply_markup=inline_keyboard)
-        await message.bot.send_message(chat_id=756743749, text=message.text, parse_mode=ParseMode.HTML,
-                                       reply_markup=inline_keyboard)
-
 
 @dp.callback_query(lambda c: c.data == "spam")
 async def handle_spam_button(callback_query: CallbackQuery):
