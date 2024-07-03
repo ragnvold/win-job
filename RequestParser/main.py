@@ -19,10 +19,10 @@ client = TelegramClient(
     system_version="IOS 100.1"
 )
 
-banUserSet = set(
+banUserSet = {
     6520281407,
     7346459736,
-)
+}
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
