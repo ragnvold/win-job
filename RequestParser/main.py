@@ -45,8 +45,8 @@ async def main(event):
             f"**├👤 Юзернейм:** @{sender.username}**└📎\n\n"
             f"**💬 Сообщение:**\n\n`{messageText}`"
         )
-        
-        await client.send_message(os.getenv("CHAT_BOT_ID"), msgFind)
+
+        await client.send_message(6723318386, msgFind)
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
