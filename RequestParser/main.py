@@ -53,10 +53,10 @@ async def main(event):
             )
 
             targetChatBotId = int(os.getenv("TARGET_CHAT_BOT_ID"))
-            await client.send_message(targetChatBotId, msgFind)
+            await client.send_message(474703177, msgFind)
             
             smmChatBotId = int(os.getenv("SMM_CHAT_BOT_ID"))
-            await client.send_message(smmChatBotId, msgFind)
+            await client.send_message(474703177, msgFind)
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
