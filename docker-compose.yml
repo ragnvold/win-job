@@ -9,11 +9,21 @@ services:
     ports:
       - "5000:5000"
 
-  freelance_bot:
+  target_freelance_bot:
     build:
-      context: ./FreelanceBot
+      context: ./TargetFreelanceBot
       dockerfile: Dockerfile
-    container_name: freelance_bot
+    container_name: target_freelance_bot
+    env_file:
+      - .env.test
+    depends_on:
+      - request_parser
+
+  smm_freelance_bot:
+    build:
+      context: ./SMMFreelanceBot
+      dockerfile: Dockerfile
+    container_name: smm_freelance_bot
     env_file:
       - .env.test
     depends_on:

@@ -36,7 +36,7 @@ async def sendMessageOnModeration(message: types.Message):
             text="Отклонить",
             callback_data="reject"
         )
-        approve_button = InlineKeyboardButton(
+        target_approve_button = InlineKeyboardButton(
             text="Одобрить",
             callback_data="approve"
         )
@@ -77,6 +77,9 @@ async def checkUserHasChat(bot, userId: int) -> bool:
 
 @dp.callback_query(lambda c: c.data == "approve")
 async def handle_approve_button(callback_query: CallbackQuery):
+    spam_button = InlineKeyboardButton(text="Спам", callback_data="spam")
+    inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[[spam_button]])
+    
     headers = {
         "X-Requested-With": "XMLHttpRequest"
     }
@@ -84,26 +87,33 @@ async def handle_approve_button(callback_query: CallbackQuery):
     url = "https://app.leadteh.ru/api/v1/getContacts?api_token=E3NgGK6Erarz2kcgopkgLjPHQbWwmnIA2Lfoit7WugDP9MNlTgSIYGOXScU6&bot_id=484142"
 
     response = requests.get(url, headers=headers)
-    data = response.json()
-
-    spam_button = InlineKeyboardButton(text="Спам", callback_data="spam")
-    inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[[spam_button]])
-
-    for i in data["data"]:
-        if ("оплатил 1 месяц" in i["tags"] or
-                "триал" in i["tags"] or
-                "оплатил 3 месяца" in i["tags"] or
-                "оплатил 6 месяцев" in i["tags"] or
-                "оплатил 12 месяцев" in i["tags"]):
+    responseJSON = response.json()
+    requestRecipients = responseJSON["data"]
+    
+    requiredRecipientTags = [
+        "smm_category_trial_activated",
+        "paid_smm_category_1_month",
+        "paid_smm_category_3_months",
+        "paid_smm_category_6_months",
+        "paid_smm_category_12_months",
+    ]
+    
+    for recipient in requestRecipients:
+        recipientTags = recipient["tags"]
+        
+        if set(recipientTags) & set(requiredRecipientTags):
+            recipientTelegramId = recipient["telegram_id"]
             try:
-                if i["telegram_id"] != "474703177":
-                    await checkUserHasChat(callback_query.message.bot, i["telegram_id"])
-
-                    if checkUserHasChat:
+                if recipientTelegramId != "474703177":
+                    isUserHasChat = await checkUserHasChat(
+                        callback_query.message.bot,
+                        recipientTelegramId,
+                    )
+                    if isUserHasChat:
                         await callback_query.message.bot.send_message(
-                            chat_id=i["telegram_id"],
+                            chat_id=recipientTelegramId,
                             text=callback_query.message.text,
-                            reply_markup=inline_keyboard
+                            reply_markup=inline_keyboard,
                         )
             except Exception as ex:
                 logging.error(f"{ex}")
@@ -118,7 +128,7 @@ async def handle_reject_button(callback_query: CallbackQuery):
 
 async def main() -> None:
     bot = Bot(
-        os.getenv("BOT_TOKEN"),
+        os.getenv("SMM_BOT_TOKEN"),
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
     await dp.start_polling(bot)
