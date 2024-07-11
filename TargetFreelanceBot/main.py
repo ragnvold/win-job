@@ -36,7 +36,7 @@ async def sendMessageOnModeration(message: types.Message):
             text="Отклонить",
             callback_data="reject"
         )
-        target_approve_button = InlineKeyboardButton(
+        approve_button = InlineKeyboardButton(
             text="Одобрить",
             callback_data="approve"
         )
