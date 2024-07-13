@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer(f"Приветствую, {hbold(message.from_user.full_name)}! Здесь будут отправляться фриланс заказы")
+    await message.answer(f"Приветствую, {hbold(message.from_user.full_name)}! Здесь будут отправляться фриланс-заказы")
 
 @dp.message()
 async def sendMessageOnModeration(message: types.Message):
@@ -52,9 +52,11 @@ async def sendMessageOnModeration(message: types.Message):
                 [spam_button]
             ]
         )
+        
+        targetChatBotOperatorId = int(os.getenv("TARGET_CHAT_BOT_OPERATOR"))
 
         await message.bot.send_message(
-            chat_id=474703177,
+            chat_id=targetChatBotOperatorId,
             text=message.text,
             parse_mode=ParseMode.HTML,
             reply_markup=inline_keyboard
@@ -104,7 +106,7 @@ async def handle_approve_button(callback_query: CallbackQuery):
         if set(recipientTags) & set(requiredRecipientTags):
             recipientTelegramId = recipient["telegram_id"]
             try:
-                if recipientTelegramId != "474703177":
+                if recipientTelegramId != os.getenv("TARGET_CHAT_BOT_OPERATOR"):
                     isUserHasChat = await checkUserHasChat(
                         callback_query.message.bot,
                         recipientTelegramId,

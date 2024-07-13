@@ -22,6 +22,7 @@ client = TelegramClient(
 banUserSet = {
     6520281407,
     7346459736,
+    5111381608,
 }
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -53,10 +54,10 @@ async def main(event):
             )
 
             targetChatBotId = int(os.getenv("TARGET_CHAT_BOT_ID"))
-            await client.send_message(7352878183, msgFind)
+            await client.send_message(targetChatBotId, msgFind)
             
             smmChatBotId = int(os.getenv("SMM_CHAT_BOT_ID"))
-            await client.send_message(6914300741, msgFind)
+            await client.send_message(smmChatBotId, msgFind)
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
