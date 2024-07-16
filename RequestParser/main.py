@@ -33,8 +33,11 @@ async def checkSenderUsername(event):
 
 async def checkUserIdBlocked(event):
     sender = await event.message.get_sender()
-    logging.info(sender)
-    return sender.id in banUserSet
+    if sender != None:
+        return sender.id in banUserSet
+    else:
+        logging.info(f"No sender information for message: {event.message.id}")
+        return True
 
 @client.on(events.NewMessage)
 async def main(event):
