@@ -33,7 +33,7 @@ async def checkSenderUsername(event):
 
 async def checkUserIdBlocked(event):
     sender = await event.message.get_sender()
-    
+    logging.info(sender)
     return sender.id in banUserSet
 
 @client.on(events.NewMessage)
