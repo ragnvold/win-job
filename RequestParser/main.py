@@ -23,6 +23,8 @@ banUserSet = {
     6520281407,
     7346459736,
     5111381608,
+    1223438727,
+    7302101418,
 }
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
