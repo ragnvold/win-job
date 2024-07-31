@@ -25,6 +25,6 @@ services:
       dockerfile: Dockerfile
     container_name: smm_freelance_bot
     env_file:
-      - .env
+      - .env.test
     depends_on:
       - request_parser
