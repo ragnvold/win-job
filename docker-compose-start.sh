@@ -9,7 +9,7 @@ fi
 # Устанавливаем переменную WINJOB_ENV_FILE в зависимости от переданного аргумента
 case "$1" in
   prod)
-    WINJOB_ENV_FILE=".env.prod"
+    WINJOB_ENV_FILE=".env"
     ;;
   test)
     WINJOB_ENV_FILE=".env.test"
