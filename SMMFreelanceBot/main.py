@@ -86,7 +86,7 @@ async def handle_approve_button(callback_query: CallbackQuery):
         "X-Requested-With": "XMLHttpRequest"
     }
 
-    url = "https://app.leadteh.ru/api/v1/getContacts?api_token=E3NgGK6Erarz2kcgopkgLjPHQbWwmnIA2Lfoit7WugDP9MNlTgSIYGOXScU&count=5006&bot_id=484142"
+    url = "https://app.leadteh.ru/api/v1/getContacts?api_token=E3NgGK6Erarz2kcgopkgLjPHQbWwmnIA2Lfoit7WugDP9MNlTgSIYGOXScU6&count=500&bot_id=484142"
 
     response = requests.get(url, headers=headers)
     responseJSON = response.json()
