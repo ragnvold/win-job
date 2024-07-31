@@ -25,4 +25,4 @@ esac
 export WINJOB_ENV_FILE
 
 # Запускаем docker-compose с нужным файлом окружения
-sudo docker-compose --env-file $WINJOB_ENV_FILE up -d --build --no-deps --remove-orphans
+sudo WINJOB_ENV_FILE=$WINJOB_ENV_FILE docker-compose up -d --build --no-deps --remove-orphans
