@@ -14,6 +14,9 @@ case "$1" in
   test)
     WINJOB_ENV_FILE=".env.test"
     ;;
+  dev)
+    WINJOB_ENV_FILE=".env.dev"
+    ;;
   *)
     echo "Unknown environment: $1"
     echo "Usage: $0 {prod|test}"
