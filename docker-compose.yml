@@ -9,6 +9,11 @@ services:
     ports:
       - "5000:5000"
 
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
   target_freelance_bot:
     build:
       context: ./TargetFreelanceBot
