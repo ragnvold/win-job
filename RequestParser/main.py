@@ -9,12 +9,13 @@ from datetime import datetime, date, time, timedelta
 from gpt4free import check_message
 from telethon import (
     TelegramClient, 
-    events, 
+    events,
     utils
 )
+from telethon.sessions.string import StringSession
 
 client = TelegramClient(
-    "userBot",
+    StringSession(os.getenv("USER_BOT_SESSION_STRING")),
     api_id=os.getenv("API_ID"),
     api_hash=os.getenv("API_HASH"),
     device_model="iPhone 55 Pro",
