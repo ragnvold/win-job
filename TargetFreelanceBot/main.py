@@ -31,7 +31,7 @@ async def command_start_handler(message: Message) -> None:
 
 @dp.message()
 async def sendMessageOnModeration(message: types.Message):
-    if message.from_user.id == 6463487004:
+    if message.from_user.id == int(os.getenv("USER_BOT_ID")):
         reject_button = InlineKeyboardButton(
             text="Отклонить",
             callback_data="reject"

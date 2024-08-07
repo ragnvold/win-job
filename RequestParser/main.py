@@ -10,7 +10,9 @@ from gpt4free import check_message
 from telethon import (
     TelegramClient, 
     events,
-    utils
+    utils,
+    functions,
+    types,
 )
 from telethon.sessions.string import StringSession
 
@@ -151,6 +153,7 @@ async def checkUserIdBlocked(event):
     
 async def checkDuplicateMessage(event):
     if redis_client.exists(event.message.text):
+        logging.info(f"Find duplicate message: {event.message.id}")
         return True
     else:
         redis_client.setex(
@@ -179,12 +182,16 @@ async def main(event):
                     f"👤 Юзернейм: @{sender.username}\n\n"
                     f"💬 Сообщение:\n\n`{messageText}`"
                 )
-
+                
                 targetChatBotId = int(os.getenv("TARGET_CHAT_BOT_ID"))
-                await client.send_message(targetChatBotId, msgFind)
+                targetChatBotEntity = await client.get_input_entity(targetChatBotId)
+                targetChatBotPeer = utils.get_input_peer(targetChatBotEntity)
+                await client(functions.messages.SendMessageRequest(peer=targetChatBotPeer, message=msgFind))
                 
                 smmChatBotId = int(os.getenv("SMM_CHAT_BOT_ID"))
-                await client.send_message(smmChatBotId, msgFind)
+                smmChatBotEntity = await client.get_input_entity(smmChatBotId)
+                smmChatBotPeer = utils.get_input_peer(smmChatBotEntity)
+                await client(functions.messages.SendMessageRequest(peer=smmChatBotPeer, message=msgFind))
 
 async def run_main():
     await client.start(password=os.getenv("USER_BOT_PASSWORD"))
