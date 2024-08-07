@@ -151,6 +151,7 @@ async def checkUserIdBlocked(event):
     
 async def checkDuplicateMessage(event):
     if redis_client.exists(event.message.text):
+        logging.info(f"Find duplicate message: {event.message.id}")
         return True
     else:
         redis_client.setex(

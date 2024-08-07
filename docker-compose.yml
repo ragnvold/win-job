@@ -11,6 +11,8 @@ services:
 
   redis:
     image: "redis:alpine"
+    volumes:
+      - redis_volume_data:/data
     ports:
       - "6379:6379"
 
@@ -33,3 +35,6 @@ services:
       - ${WINJOB_ENV_FILE}
     depends_on:
       - request_parser
+
+volumes:
+  redis_volume_data:
