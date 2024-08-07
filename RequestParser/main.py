@@ -180,7 +180,7 @@ async def main(event):
                     f"👤 Юзернейм: @{sender.username}\n\n"
                     f"💬 Сообщение:\n\n`{messageText}`"
                 )
-
+                
                 targetChatBotId = int(os.getenv("TARGET_CHAT_BOT_ID"))
                 await client.send_message(targetChatBotId, msgFind)
                 
