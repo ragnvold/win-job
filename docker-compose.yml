@@ -7,10 +7,12 @@ services:
     env_file:
       - ${WINJOB_ENV_FILE}
     ports:
-      - "5000:5000"
+      - "5001:5001"
 
   redis:
     image: "redis:alpine"
+    volumes:
+      - redis_volume_data:/data
     ports:
       - "6379:6379"
 
@@ -33,3 +35,6 @@ services:
       - ${WINJOB_ENV_FILE}
     depends_on:
       - request_parser
+
+volumes:
+  redis_volume_data:
