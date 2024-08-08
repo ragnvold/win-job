@@ -7,7 +7,7 @@ services:
     env_file:
       - ${WINJOB_ENV_FILE}
     ports:
-      - "5000:5000"
+      - "5001:5001"
 
   redis:
     image: "redis:alpine"
